@@ -4,13 +4,36 @@ var ${widget.shortname}_timer_controller = {
       $( "#action" ).click(function(event, ui) {
           var text = $('#action .ui-btn-text').text();
           if (text == "Stop") {
-              $('#action .ui-btn-text').text("Start");
-              alert("Not currently able to stop a running timer");
+              ${widget.shortname}_timer_controller.stop();
           } else {
-              $('#action .ui-btn-text').text("Stop");
-              $('#remaining').show();
+              ${widget.shortname}_timer_controller.start();
           }
       });
+  },
+
+  totalSeconds: 1500,
+  start:function() {
+      $('#action .ui-btn-text').text("Stop");              
+      $('#remaining').show();
+      ${widget.shortname}_timer_controller.updateTimer();
+      window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
+  },
+
+  tick: function() {
+      ${widget.shortname}_timer_controller.totalSeconds -= 1;
+      ${widget.shortname}_timer_controller.updateTimer();
+      window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
+  },
+
+  stop:function() {
+      $('#action .ui-btn-text').text("Start");
+      $('#remaining').hide();
+      // TODO: cancel tick timeout
+      alert("Not currently able to stop a running timer, although we do hide it");
+  },
+
+  updateTimer:function() {
+      $('#remaining').text(${widget.shortname}_timer_controller.totalSeconds);
   }
 };
 
