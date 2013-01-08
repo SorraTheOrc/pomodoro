@@ -11,7 +11,7 @@ var ${widget.shortname}_timer_controller = {
       });
   },
 
-  totalSeconds: 3,
+  totalSeconds: 1500,
   start:function() {
       $('#action .ui-btn-text').text("Stop");              
       $('#remaining').show();
@@ -38,7 +38,24 @@ var ${widget.shortname}_timer_controller = {
   },
 
   updateTimer:function() {
-      $('#remaining').text(${widget.shortname}_timer_controller.totalSeconds);
+      var seconds = ${widget.shortname}_timer_controller.totalSeconds;
+      var hours = Math.floor(seconds / 3600);
+      seconds -= hours * 3600;
+      var minutes = Math.floor(seconds / 60);
+      seconds -= minutes * 60;
+
+      var timeStr = "";
+      if (hours > 0) {
+          timeStr = timeStr + ${widget.shortname}_timer_controller.addLeadingZero(hours) + ":";
+      }
+      timeStr = timeStr + ${widget.shortname}_timer_controller.addLeadingZero(minutes) + ":";
+      timeStr = timeStr + ${widget.shortname}_timer_controller.addLeadingZero(seconds);
+
+      $('#remaining').text(timeStr);
+  },
+
+  addLeadingZero:function(num) {
+      return (num < 10) ? "0" + num : num;
   }
 };
 
