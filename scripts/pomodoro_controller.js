@@ -11,7 +11,7 @@ var ${widget.shortname}_timer_controller = {
       });
   },
 
-  totalSeconds: 1500,
+  totalSeconds: 3,
   start:function() {
       $('#action .ui-btn-text').text("Stop");              
       $('#remaining').show();
@@ -22,7 +22,12 @@ var ${widget.shortname}_timer_controller = {
   tick: function() {
       ${widget.shortname}_timer_controller.totalSeconds -= 1;
       ${widget.shortname}_timer_controller.updateTimer();
-      window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
+
+      if (${widget.shortname}_timer_controller.totalSeconds <= 0) {
+          alert("Times Up!");
+      } else {
+          window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
+      };
   },
 
   stop:function() {
