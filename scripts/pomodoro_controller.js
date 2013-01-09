@@ -11,7 +11,7 @@ var ${widget.shortname}_timer_controller = {
       });
   },
 
-  totalSeconds: 1500,
+  totalSeconds: 3,
   start:function() {
       $('#action .ui-btn-text').text("Stop");              
       $('#remaining').show();
@@ -24,7 +24,7 @@ var ${widget.shortname}_timer_controller = {
       ${widget.shortname}_timer_controller.updateTimer();
 
       if (${widget.shortname}_timer_controller.totalSeconds <= 0) {
-          alert("Times Up!");
+          $("#completedSound")[0].play();
       } else {
           window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
       };
