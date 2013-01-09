@@ -2,7 +2,7 @@ var ${widget.shortname}_timer_controller = {
   init:function() { 
       $('#remaining').hide();      
       $('#stop').click(function(event, ui) {
-          ${widget.shortname}_timer_controller.stop();
+          ${widget.shortname}_timer_controller.stop("Start Work");
       });
       $( "#action" ).click(function(event, ui) {
           var text = $('#action .ui-btn-text').text();
@@ -17,22 +17,14 @@ var ${widget.shortname}_timer_controller = {
   totalSeconds: 3,
   timer: null,
 
-  toggleActionText:function() {
-      if ($('#action .ui-btn-text').text() == "Start Work") { 
-          $('#action .ui-btn-text').text("Start Break"); 
-      } else {
-          $('#action .ui-btn-text').text("Start Work"); 
-      }
-  },
-
   startWork:function() {
-      ${widget.shortname}_timer_controller.toggleActionText();
+      ${widget.shortname}_timer_controller.stop("Start Break");
       ${widget.shortname}_timer_controller.totalSeconds = 25 * 60;             
       ${widget.shortname}_timer_controller.startTimer();
   },
 
   startBreak:function() {
-      ${widget.shortname}_timer_controller.toggleActionText();
+      ${widget.shortname}_timer_controller.stop("Start Work");
       ${widget.shortname}_timer_controller.totalSeconds = 5 * 60;             
       ${widget.shortname}_timer_controller.startTimer();
   },
@@ -55,9 +47,9 @@ var ${widget.shortname}_timer_controller = {
       };
   },
 
-  stop:function() {
+  stop:function(nextAction) {
       clearTimeout(${widget.shortname}_timer_controller.timer);
-      $('#action .ui-btn-text').text("Start Work"); 
+      $('#action .ui-btn-text').text(nextAction); 
       $('#remaining').hide();
   },
 
