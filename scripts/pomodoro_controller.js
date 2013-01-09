@@ -12,11 +12,12 @@ var ${widget.shortname}_timer_controller = {
   },
 
   totalSeconds: 3,
+  timer: null,
   start:function() {
       $('#action .ui-btn-text').text("Stop");              
       $('#remaining').show();
       ${widget.shortname}_timer_controller.updateTimer();
-      window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
+      ${widget.shortname}_timer_controller.timer = window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
   },
 
   tick: function() {
@@ -25,16 +26,17 @@ var ${widget.shortname}_timer_controller = {
 
       if (${widget.shortname}_timer_controller.totalSeconds <= 0) {
           $("#completedSound")[0].play();
+          ${widget.shortname}_timer_controller.stop();
       } else {
-          window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
+          ${widget.shortname}_timer_controller.timer = window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
       };
   },
 
   stop:function() {
+      clearTimeout(${widget.shortname}_timer_controller.timer);
+      ${widget.shortname}_timer_controller.totalSeconds = 1500;
       $('#action .ui-btn-text').text("Start");
       $('#remaining').hide();
-      // TODO: cancel tick timeout
-      alert("Not currently able to stop a running timer, although we do hide it");
   },
 
   updateTimer:function() {
