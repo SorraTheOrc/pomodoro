@@ -1,20 +1,43 @@
 var ${widget.shortname}_timer_controller = { 
   init:function() { 
       $('#remaining').hide();      
+      $('#stop').click(function(event, ui) {
+          ${widget.shortname}_timer_controller.stop();
+      });
       $( "#action" ).click(function(event, ui) {
           var text = $('#action .ui-btn-text').text();
-          if (text == "Stop") {
-              ${widget.shortname}_timer_controller.stop();
+          if (text == "Start Break") {
+              ${widget.shortname}_timer_controller.startBreak();
           } else {
-              ${widget.shortname}_timer_controller.start();
+              ${widget.shortname}_timer_controller.startWork();
           }
       });
   },
 
   totalSeconds: 3,
   timer: null,
-  start:function() {
-      $('#action .ui-btn-text').text("Stop");              
+
+  toggleActionText:function() {
+      if ($('#action .ui-btn-text').text() == "Start Work") { 
+          $('#action .ui-btn-text').text("Start Break"); 
+      } else {
+          $('#action .ui-btn-text').text("Start Work"); 
+      }
+  },
+
+  startWork:function() {
+      ${widget.shortname}_timer_controller.toggleActionText();
+      ${widget.shortname}_timer_controller.totalSeconds = 25 * 60;             
+      ${widget.shortname}_timer_controller.startTimer();
+  },
+
+  startBreak:function() {
+      ${widget.shortname}_timer_controller.toggleActionText();
+      ${widget.shortname}_timer_controller.totalSeconds = 5 * 60;             
+      ${widget.shortname}_timer_controller.startTimer();
+  },
+
+  startTimer:function() {
       $('#remaining').show();
       ${widget.shortname}_timer_controller.updateTimer();
       ${widget.shortname}_timer_controller.timer = window.setTimeout("${widget.shortname}_timer_controller.tick()", 1000); 
@@ -34,8 +57,7 @@ var ${widget.shortname}_timer_controller = {
 
   stop:function() {
       clearTimeout(${widget.shortname}_timer_controller.timer);
-      ${widget.shortname}_timer_controller.totalSeconds = 1500;
-      $('#action .ui-btn-text').text("Start");
+      $('#action .ui-btn-text').text("Start Work"); 
       $('#remaining').hide();
   },
 
